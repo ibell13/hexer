@@ -43,7 +43,6 @@
 #include <lazperf/readers.hpp>
 #include <lazperf/las.hpp>
 
-#include <h3/include/h3api.h>
 #ifdef HEXER_HAVE_GDAL
 #include "gdal.h"
 #endif
@@ -113,10 +112,6 @@ void processLaz(HexGrid *grid, std::ifstream& file)
     }
     grid->findShapes();
     grid->findParentPaths();
-}
-
-void processH3(std::ifstream& file, int resolution) {
-
 }
 
 void processHexes(HexGrid *grid, HexReader reader)

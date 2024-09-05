@@ -19,11 +19,11 @@ void BaseGrid::addPoint(Point& p)
     int count = increment(h);
     if (count == m_denseLimit)
     {
-        HexId below = edgeHex(h, 0);
-        HexId above = edgeHex(h, 3);
-        if (!isDense(below))
+        HexId above = edgeHex(h, 0);
+        HexId below = edgeHex(h, 3);
+        if (!isDense(above))
             addRoot(h);
-        removeRoot(above);
+        removeRoot(below);
     }
 }
 
@@ -122,8 +122,8 @@ std::pair<Segment, Segment> BaseGrid::nextSegments(const Segment& s) const
     static const int next[] { 1, 2, 3, 4, 5, 0 };
     static const int prev[] { 5, 0, 1, 2, 3, 4 };
 
-    Segment right(s.hex, next[s.edge]);
-    Segment left(edgeHex(right.hex, right.edge), prev[s.edge]);
+    Segment left(s.hex, next[s.edge]);
+    Segment right(edgeHex(left.hex, left.edge), prev[s.edge]);
     return { left, right };
 }
 

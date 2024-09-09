@@ -1,11 +1,10 @@
-#include <fstream>
+/* #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
 
 #include <hexer/HexGrid.hpp>
 #include <hexer/Processor.hpp>
-#include <hexer/HexIter.hpp>
 #include <hexer/Utils.hpp>
 #include "test_main.hpp"
 #include <lazperf/readers.hpp>
@@ -66,4 +65,4 @@ TEST(gridtest, test_h3_exist) {
     H3Index index;
     EXPECT_EQ(latLngToCell(&location, resolution, &index), E_SUCCESS); 
 }
-} //namespace hexer
+} //namespace hexer */

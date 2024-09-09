@@ -17,8 +17,21 @@ void BaseGrid::addPoint(Point& p)
 
     HexId h = findHexagon(p);
     int count = increment(h);
-    if (count == m_denseLimit)
+/*     if (count == m_denseLimit)
     {
+        HexId above = edgeHex(h, 0);
+        HexId below = edgeHex(h, 3);
+        if (!isDense(above))
+            addRoot(h);
+        removeRoot(below);
+    } */
+}
+
+void BaseGrid::setHexes(const std::vector<HexId>& ids)
+{
+    for (HexId h : ids)
+    {
+        m_counts[h] = m_denseLimit + 1;
         HexId above = edgeHex(h, 0);
         HexId below = edgeHex(h, 3);
         if (!isDense(above))
@@ -76,6 +89,7 @@ bool BaseGrid::isDense(HexId h)
 
 void BaseGrid::findShapes()
 {
+    findPossibleRoots();
     if (m_possibleRoots.empty())
         throw hexer_error("No areas of sufficient density - no shapes. "
             "Decrease density or area size.");
@@ -84,6 +98,7 @@ void BaseGrid::findShapes()
     std::cout << m_possibleRoots.size() << "\n";
     while (m_possibleRoots.size())
     {
+        std::cout << m_possibleRoots.size() << "\n";
         HexId root = *m_possibleRoots.begin();
         findShape(root, shapeNum++);
     }
@@ -97,7 +112,6 @@ void BaseGrid::findShape(HexId root, int pathNum)
     Segment first(root, 0);
     Segment cur(root, 0);
     do {
-        //std::cout << cur.edge << ", (" << cur.hex.i << ", " << cur.hex.j << ") \n";
         if (cur.horizontal())
         {
             m_possibleRoots.erase(cur.hex);
@@ -108,10 +122,6 @@ void BaseGrid::findShape(HexId root, int pathNum)
         path.addPoint(findPoint(cur));
         const auto& [left, right] = nextSegments(cur);
         cur = isDense(left.hex) ? left : right;
-/*         if (isDense(left.hex))
-            std::cout << "left to (" << left.hex.i << ", " << left.hex.j << ") --- ";
-        else
-            std::cout << "right --- ";  */
 
     } while (cur != first);
     path.addPoint(findPoint(first));

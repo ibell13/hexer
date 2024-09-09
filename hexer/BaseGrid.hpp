@@ -24,6 +24,7 @@ public:
     void findShapes();
     void findParentPaths();
     bool isDense(HexId hex);
+    void setHexes(const std::vector<HexId>& hexes);
     
     void setSampleSize(int num)
         {m_maxSample = num; }

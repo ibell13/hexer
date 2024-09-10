@@ -29,7 +29,10 @@ jobs:
     - name: Bash
       shell: bash
       run: |
-        conda install gdal
+        sudo apt-add-repository ppa:ubuntugis/ubuntugis-unstable
+        sudo apt-get update
+        sudo apt-get install gdal-bin libgdal-dev
+        pip install GDAL==3.2.3
     - uses: actions/checkout@v4
 
     - name: Configure CMake

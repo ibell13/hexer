@@ -117,6 +117,10 @@ void BaseGrid::findShape(HexId root)
             // so hexagons can be processed separately in parentOrChild()
             HexId pathHex = (cur.edge == 0 ? cur.hex : edgeHex(cur.hex, 3));
             m_hexPaths.insert({pathHex, &path});
+
+            // here we set the minimum I or J coordinate, to be used for finding
+            // parents and children from m_hexPaths
+            setMinCoord(pathHex);
         }
         path.addPoint(findPoint(cur));
 

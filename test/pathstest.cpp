@@ -3,6 +3,9 @@
 #include <hexer/HexGrid.hpp>
 #include <hexer/HexId.hpp>
 
+#include <ostream>
+#include <sstream>
+
 namespace hexer 
 {
 
@@ -43,22 +46,21 @@ TEST(pathstest, test_paths_h3)
     grid.reset(new H3Grid(10, 1));
 
     std::vector<Path*> paths = insertGrid(grid.get());
-
     EXPECT_EQ(paths[0]->numPoints(), 55);
     EXPECT_EQ(paths[0]->numChildren(), 2);
-    
+
     std::vector<Path *> child_0 = paths[0]->subPaths();
     EXPECT_EQ(child_0[0]->numPoints(), 39);
     EXPECT_EQ(child_0[1]->numPoints(), 15);
     EXPECT_EQ(child_0[0]->numChildren(), 2);
     EXPECT_EQ(child_0[1]->numChildren(), 0);
-    
+
     std::vector<Path *> child_0_0 = child_0[0]->subPaths();
     EXPECT_EQ(child_0_0[0]->numPoints(), 19);
     EXPECT_EQ(child_0_0[1]->numPoints(), 7);
     EXPECT_EQ(child_0_0[0]->numChildren(), 1);
     EXPECT_EQ(child_0_0[1]->numChildren(), 0);
-    
+
     std::vector<Path *> child_0_0_0 = child_0_0[0]->subPaths();
     EXPECT_EQ(child_0_0_0[0]->numPoints(), 7);
     EXPECT_EQ(child_0_0_0[0]->numChildren(), 0);
@@ -87,7 +89,7 @@ const std::vector<Path*> insertGrid(HexGrid *grid)
 TEST(pathstest, test_paths_hexer) 
 {
     std::unique_ptr<HexGrid> grid;
-    grid.reset(new HexGrid(1, 10));
+    grid.reset(new HexGrid(1));
 
     std::vector<Path*> paths = insertGrid(grid.get());
 
@@ -101,13 +103,13 @@ TEST(pathstest, test_paths_hexer)
     EXPECT_EQ(child_0[1]->numChildren(), 0);
 
     std::vector<Path *> child_0_0 = child_0[0]->subPaths();
-    EXPECT_EQ(child_0_0[0]->numPoints(), 7);
-    EXPECT_EQ(child_0_0[1]->numPoints(), 19);
-    EXPECT_EQ(child_0_0[0]->numChildren(), 0);
-    EXPECT_EQ(child_0_0[1]->numChildren(), 1);
+    EXPECT_EQ(child_0_0[0]->numPoints(), 19);
+    EXPECT_EQ(child_0_0[1]->numPoints(), 7);
+    EXPECT_EQ(child_0_0[0]->numChildren(), 1);
+    EXPECT_EQ(child_0_0[1]->numChildren(), 0);
 
-    std::vector<Path *> child_0_0_1 = child_0_0[1]->subPaths();
-    EXPECT_EQ(child_0_0_1[0]->numPoints(), 7);
-    EXPECT_EQ(child_0_0_1[0]->numChildren(), 0);
+    std::vector<Path *> child_0_0_0 = child_0_0[0]->subPaths();
+    EXPECT_EQ(child_0_0_0[0]->numPoints(), 7);
+    EXPECT_EQ(child_0_0_0[0]->numChildren(), 0);
 }
 } // namespace hexer 

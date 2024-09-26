@@ -1,5 +1,10 @@
 #pragma once
 
+#if _WIN32
+#undef min
+#undef max
+#endif // _WIN32
+
 #include <map>
 #include <vector>
 #include <sstream>
@@ -22,10 +27,12 @@ class H3Grid : public BaseGrid
 {
 public:
     H3Grid(int dense_limit)
-        : BaseGrid{dense_limit}, m_res{-1}, m_origin{0}
+        : BaseGrid{dense_limit}, m_res{-1},
+        m_minI{std::numeric_limits<int>::max()}, m_origin{0}
         {}
     H3Grid(int res, int dense_limit)
-        : BaseGrid{dense_limit}, m_res{res}, m_origin{0}
+        : BaseGrid{dense_limit}, m_res{res},
+        m_minI{std::numeric_limits<int>::max()}, m_origin{0}
         {}
 
     H3Index ij2h3(HexId ij)
@@ -77,6 +84,10 @@ public:
 
 private:
     void processHeight(double height);
+
+    // minimum i value, used in inGrid() for finding root/child paths in parentOrChild()
+    void setMinCoord(HexId& h)
+        { m_minI = std::min(m_minI, h.i); }
 
     /// H3 resolution of the grid (0-15)
     int m_res;

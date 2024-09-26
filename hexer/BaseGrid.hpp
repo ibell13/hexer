@@ -3,7 +3,7 @@
 #include <vector>
 #include <list>
 #include <unordered_map>
-#include <unordered_set>
+#include <set>
 
 #include "Mathpair.hpp"
 #include "Path.hpp"
@@ -52,9 +52,9 @@ protected:
     int increment(HexId hex);
 
     int m_maxSample;
-    ///   map of cells bordering paths at side 0 or 3
+    /// map of cells bordering paths at side 0 or 3
     std::unordered_map<HexId, Path *> m_hexPaths;
-    ///   map of all hexagons containing points, and the number of points within.
+    /// map of all hexagons containing points, and the number of points within.
     std::unordered_map<HexId, int> m_counts;
 
 private:
@@ -64,6 +64,7 @@ private:
     virtual void processHeight(double height) = 0;
     virtual bool inGrid(HexId& h) = 0;
     virtual HexId moveCoord(HexId& h) = 0;
+    virtual void setMinCoord(HexId& h) = 0;
 
     void handleSamplePoint(Point& p);
     void addRoot(HexId hex);
@@ -74,15 +75,15 @@ private:
     void parentOrChild(Path& p);
     std::pair<Segment, Segment> nextSegments(const Segment& s) const;
 
-    ///   Vector of points to use to determine hex height
+    /// Vector of points to use to determine hex height
     std::vector<Point> m_sample;
-    ///   Set of hexagons with non-dense neighbors at side 0
-    std::unordered_set<HexId> m_possibleRoots;
-    ///   List of all paths
+    /// Set of hexagons with non-dense neighbors at side 0
+    std::set<HexId> m_possibleRoots;
+    /// List of all paths
     std::list<Path> m_paths;
-    ///   List of pointers to paths in m_paths to be written as roots
+    /// List of pointers to paths in m_paths to be written as roots
     std::vector<Path *> m_roots;
-    ///   Minimum number of points for a cell to be dense
+    /// Minimum number of points for a cell to be dense
     int m_denseLimit;
 };
 
